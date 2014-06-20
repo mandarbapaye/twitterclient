@@ -8,5 +8,6 @@
     <string name="full_name_label">Full Name</string>
     <string name="foo_label">\@foo</string>
     <string name="tweet_text_label">This is tweet text</string>
+    <string name="fourd_label">4d</string>
 
 </resources>

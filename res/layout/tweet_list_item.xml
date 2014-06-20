@@ -12,36 +12,52 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/ic_launcher"
         android:layout_margin="5dp" />
+    
+    <LinearLayout
+        	android:id="@+id/llTopLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ivProfileImg"
+            android:layout_margin="2dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true">
+            
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/full_name_label"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/ivProfileImg"
-        android:text="@string/full_name_label"
-        android:textAppearance="?android:attr/textAppearanceMedium" 
-        android:layout_margin="2dp"/>
-
-    <TextView
-        android:id="@+id/tvScreenName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tvName"
-        android:layout_alignBottom="@+id/tvName"
-        android:layout_toRightOf="@+id/tvName"
-        android:text="@string/foo_label"
-        android:textAppearance="?android:attr/textAppearanceSmall" 
-        android:layout_margin="2dp"/>
+        <TextView
+            android:id="@+id/tvScreenName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:text="@string/foo_label"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <TextView
+            android:id="@+id/tvTimeAgo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:gravity="right"
+            android:text="@string/fourd_label"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/darker_gray" />
+        
+	</LinearLayout>
 
     <TextView
         android:id="@+id/tvTweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvScreenName"
+        android:layout_below="@+id/llTopLine"
         android:layout_toRightOf="@+id/ivProfileImg"
         android:text="@string/tweet_text_label"
         android:textAppearance="?android:attr/textAppearanceSmall" 
-        android:layout_margin="3dp"/>
+        android:layout_margin="2dp"/>
 
 </RelativeLayout>
