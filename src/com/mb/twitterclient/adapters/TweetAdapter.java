@@ -42,7 +42,7 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 		imageLoader.displayImage(tweet.getUser().getProfileImageUrl(), ivProfileImg);
 		tvTweet.setText(tweet.getBody());
 		tvName.setText(tweet.getUser().getName());
-		tvScreenName.setText(tweet.getUser().getScreenName());
+		tvScreenName.setText("@" + tweet.getUser().getScreenName());
 
 		return v;
 	}
