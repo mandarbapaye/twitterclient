@@ -6,6 +6,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_photos">Flickr Photos</string>
     <string name="login_label">Connect to Twitter</string>
-    
+    <string name="title_activity_timeline">TimelineActivity</string>
+    <string name="full_name_label">Full Name</string>
+    <string name="foo_label">\@foo</string>
+    <string name="tweet_text_label">This is tweet text</string>
 
 </resources>
