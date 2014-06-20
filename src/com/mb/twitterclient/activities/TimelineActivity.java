@@ -3,11 +3,15 @@ package com.mb.twitterclient.activities;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.mb.twitterclient.R;
@@ -38,6 +42,12 @@ public class TimelineActivity extends Activity {
 		setupHandlers();
 		//loadTweets();
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.twitter_options_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
 
 	private void setupHandlers() {
 		lvTweets.setOnScrollListener(new com.mb.twitterclient.EndlessScrollListener() {
@@ -67,6 +77,21 @@ public class TimelineActivity extends Activity {
 //				}
 				
 				tweetsAdapter.addAll(Tweet.fromJSONArray(tweets));
+			}
+			
+			@Override
+			public void onFailure(Throwable e, String str) {
+				Log.d("error", e.getMessage());
+			}
+		});
+	}
+	
+	public void onComposeClicked(MenuItem item) {
+		restClient.postNewTweet("", new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(JSONObject tweetJson) {
+				tweetsAdapter.insert(Tweet.fromJSON(tweetJson), 0);
+				lvTweets.smoothScrollToPosition(0);
 			}
 			
 			@Override

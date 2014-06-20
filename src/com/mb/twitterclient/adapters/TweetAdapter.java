@@ -61,7 +61,7 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 		SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
 		sf.setLenient(true);
 	 
-		long msFor7Days = 604800000; 
+		long msFor7Days = 7 * 24 * 60 * 60 * 1000; 
 		try {
 			long dateMillis = sf.parse(rawJsonDate).getTime();
 			long agoMs = System.currentTimeMillis() - dateMillis;

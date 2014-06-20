@@ -9,5 +9,6 @@
     <string name="foo_label">\@foo</string>
     <string name="tweet_text_label">This is tweet text</string>
     <string name="fourd_label">4d</string>
+    <string name="compose_label">Compose Tweet</string>
 
 </resources>

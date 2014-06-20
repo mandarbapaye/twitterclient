@@ -4,6 +4,7 @@ import org.scribe.builder.api.Api;
 import org.scribe.builder.api.TwitterApi;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -44,6 +45,13 @@ public class TwitterRestClient extends OAuthBaseClient {
     	client.get(apiUrl, params, handler);
     }
     
+    public void postNewTweet(String tweet, AsyncHttpResponseHandler handler) {
+    	String apiUrl = getApiUrl("statuses/update.json");
+    	RequestParams params = new RequestParams();
+    	params.put("status", "Another via app. No encoding this time");
+    	client.post(apiUrl, params, handler);
+    }
+
     // CHANGE THIS
     // DEFINE METHODS for different API endpoints here
 //    public void getInterestingnessList(AsyncHttpResponseHandler handler) {
