@@ -13,8 +13,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.mb.twitterclient.R;
 import com.mb.twitterclient.TwitterApplication;
 import com.mb.twitterclient.TwitterRestClient;
-import com.mb.twitterclient.R.id;
-import com.mb.twitterclient.R.layout;
 import com.mb.twitterclient.adapters.TweetAdapter;
 import com.mb.twitterclient.models.Tweet;
 
@@ -37,13 +35,37 @@ public class TimelineActivity extends Activity {
 		tweetsAdapter = new TweetAdapter(this, tweetsList);
 		lvTweets.setAdapter(tweetsAdapter);
 		
-		populateTimeline();
+		setupHandlers();
+		//loadTweets();
 	}
 
-	private void populateTimeline() {
-		restClient.getTimeline(new JsonHttpResponseHandler() {
+	private void setupHandlers() {
+		lvTweets.setOnScrollListener(new com.mb.twitterclient.EndlessScrollListener() {
+			@Override
+			public void onLoadMore(int page, int totalItemsCount) {
+				loadTweets();
+			}
+		});
+	}
+
+	private void loadTweets() {
+		long maxId = tweetsAdapter.isEmpty() ? 0 : tweetsAdapter.getItem(tweetsAdapter.getCount() - 1).getId();
+		// Reduce the value so that only tweets older than the one loaded are received (otherwise we get dup for last tweet)
+		maxId--;
+		
+//		if (maxId > 0)
+//			Log.d("debug", "Load tweets older than: " + tweetsAdapter.getItem(tweetsAdapter.getCount() - 1).getBody() + ", id: " + maxId);
+		
+		restClient.getTimeline(maxId, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONArray tweets) {
+//				Log.d("debug", "*********** NEW RESULTS.");
+//				for (int i = 0; i < tweets.length(); i++) {
+//					try {
+//						Log.d("debug", "tweet body: " + tweets.getJSONObject(i).getString("text"));
+//					} catch (Exception e) {}
+//				}
+				
 				tweetsAdapter.addAll(Tweet.fromJSONArray(tweets));
 			}
 			
