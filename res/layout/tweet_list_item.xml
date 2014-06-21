@@ -57,6 +57,7 @@
         android:layout_below="@+id/llTopLine"
         android:layout_toRightOf="@+id/ivProfileImg"
         android:text="@string/tweet_text_label"
+        android:autoLink="all"
         android:textAppearance="?android:attr/textAppearanceSmall" 
         android:layout_margin="2dp"/>
 

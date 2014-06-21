@@ -10,7 +10,7 @@
     <string name="tweet_text_label">This is tweet text</string>
     <string name="fourd_label">4d</string>
     <string name="compose_label">Compose Tweet</string>
-    <string name="char_count_label">0/140</string>
+    <string name="char_count_label">140</string>
     <string name="compose_tweet_label">Compose Tweet</string>
 
 </resources>

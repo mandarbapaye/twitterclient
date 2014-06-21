@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:maxLength="140"
         android:inputType="textMultiLine"
+        android:drawableLeft="@drawable/ic_launcher"
         android:layout_weight="1" >
         <requestFocus />
     </EditText>

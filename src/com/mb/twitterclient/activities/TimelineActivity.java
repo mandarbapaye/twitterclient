@@ -5,13 +5,11 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -23,21 +21,25 @@ import com.mb.twitterclient.fragments.ComposeTweetFragment;
 import com.mb.twitterclient.fragments.ComposeTweetFragment.OnTweetComposedListener;
 import com.mb.twitterclient.models.Tweet;
 
+import eu.erikw.PullToRefreshListView;
+import eu.erikw.PullToRefreshListView.OnRefreshListener;
+
 public class TimelineActivity extends FragmentActivity implements OnTweetComposedListener {
 	
 	TwitterRestClient restClient;
 	
 	ArrayList<Tweet> tweetsList;
 	TweetAdapter tweetsAdapter;
-	ListView lvTweets;
+	PullToRefreshListView  lvTweets;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	
 		setContentView(R.layout.activity_timeline);
 		restClient = TwitterApplication.getRestClient();
 		
-		lvTweets = (ListView) findViewById(R.id.lvTweets);
+		lvTweets = (PullToRefreshListView ) findViewById(R.id.lvTweets);
 		tweetsList = new ArrayList<Tweet>();
 		tweetsAdapter = new TweetAdapter(this, tweetsList);
 		lvTweets.setAdapter(tweetsAdapter);
@@ -57,6 +59,13 @@ public class TimelineActivity extends FragmentActivity implements OnTweetCompose
 			@Override
 			public void onLoadMore(int page, int totalItemsCount) {
 				loadTweets();
+			}
+		});
+		
+		lvTweets.setOnRefreshListener(new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				loadNewerTweets();
 			}
 		});
 	}
@@ -88,6 +97,32 @@ public class TimelineActivity extends FragmentActivity implements OnTweetCompose
 			}
 		});
 	}
+	
+	private void loadNewerTweets() {
+		if (tweetsAdapter.isEmpty()) {
+			lvTweets.onRefreshComplete();
+		} else {
+			long sinceId = tweetsAdapter.getItem(0).getId();
+			restClient.getNewerTweets(sinceId, new JsonHttpResponseHandler() {
+				@Override
+				public void onSuccess(JSONArray tweets) {
+					ArrayList<Tweet> tweetsList = Tweet.fromJSONArray(tweets);
+					for (int i = tweetsList.size() - 1; i >= 0; i--) {
+						tweetsAdapter.insert(tweetsList.get(i), 0);
+					}
+					lvTweets.onRefreshComplete();
+				}
+				
+				@Override
+				public void onFailure(Throwable e, String str) {
+					Log.d("error", e.getMessage());
+					lvTweets.onRefreshComplete();
+				}
+			});
+
+		}
+	}
+	
 	
 	public void onComposeClicked(MenuItem item) {
 		ComposeTweetFragment composeTweetFragment = ComposeTweetFragment.newInstance();

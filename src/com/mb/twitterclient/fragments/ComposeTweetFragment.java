@@ -48,7 +48,7 @@ public class ComposeTweetFragment extends DialogFragment {
 			
 			@Override
 			public void afterTextChanged(Editable s) {
-				tvCharCount.setText(etNewTweet.getText().toString().length() + "/140");
+				tvCharCount.setText(String.valueOf(140 - etNewTweet.getText().toString().length()));
 			}
 		});
 		
