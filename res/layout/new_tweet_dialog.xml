@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/etNewTweet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:maxLength="140"
+        android:inputType="textMultiLine"
+        android:layout_weight="1" >
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/tvCharCount"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/char_count_label"
+        android:gravity="right"
+        android:layout_marginTop="5dp"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</LinearLayout>

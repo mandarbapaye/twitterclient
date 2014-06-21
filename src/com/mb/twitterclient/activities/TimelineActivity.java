@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.Activity;
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,9 +19,11 @@ import com.mb.twitterclient.R;
 import com.mb.twitterclient.TwitterApplication;
 import com.mb.twitterclient.TwitterRestClient;
 import com.mb.twitterclient.adapters.TweetAdapter;
+import com.mb.twitterclient.fragments.ComposeTweetFragment;
+import com.mb.twitterclient.fragments.ComposeTweetFragment.OnTweetComposedListener;
 import com.mb.twitterclient.models.Tweet;
 
-public class TimelineActivity extends Activity {
+public class TimelineActivity extends FragmentActivity implements OnTweetComposedListener {
 	
 	TwitterRestClient restClient;
 	
@@ -87,11 +90,24 @@ public class TimelineActivity extends Activity {
 	}
 	
 	public void onComposeClicked(MenuItem item) {
-		restClient.postNewTweet("", new JsonHttpResponseHandler() {
+		ComposeTweetFragment composeTweetFragment = ComposeTweetFragment.newInstance();
+		composeTweetFragment.show(getFragmentManager(), "ComposeTweet");
+	}
+	
+	public void onTweetComposed(String tweetText) {
+		restClient.postNewTweet(tweetText, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject tweetJson) {
+				// below approach may not be correct as some other
+				// twitter client might have added another tweet at
+				// the same time which is not reflected here.
+
 				tweetsAdapter.insert(Tweet.fromJSON(tweetJson), 0);
 				lvTweets.smoothScrollToPosition(0);
+
+				// is this a better approach then.
+//				tweetsAdapter.clear();
+//				loadTweets();
 			}
 			
 			@Override
@@ -99,5 +115,6 @@ public class TimelineActivity extends Activity {
 				Log.d("error", e.getMessage());
 			}
 		});
+
 	}
 }

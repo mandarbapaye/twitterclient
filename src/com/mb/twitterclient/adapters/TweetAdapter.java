@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 			} else {
 				String relativeDateFull = DateUtils.getRelativeTimeSpanString(dateMillis,
 										 System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+				
 				Scanner scanner = new Scanner(relativeDateFull);
 				scanner.useDelimiter(" ");
 				
