@@ -1,5 +1,6 @@
 package com.mb.twitterclient;
 
+import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 
@@ -12,7 +13,7 @@ public abstract class EndlessScrollListener implements OnScrollListener {
     // The total number of items in the dataset after the last load
     private int previousTotalItemCount = 0;
     // True if we are still waiting for the last set of data to load.
-    private boolean loading = false;
+    private boolean loading = true;
     // Sets the starting page index
     private int startingPageIndex = 0;
 
@@ -56,6 +57,7 @@ public abstract class EndlessScrollListener implements OnScrollListener {
         // the visibleThreshold and need to reload more data.
         // If we do need to reload some more data, we execute onLoadMore to fetch the data.
         if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+        	Log.d("debug", "calling onLoadMore");
 			onLoadMore(currentPage + 1, totalItemCount);
 			loading = true;
         }
