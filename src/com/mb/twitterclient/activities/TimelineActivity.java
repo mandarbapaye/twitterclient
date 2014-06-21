@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.mb.twitterclient.R;
@@ -74,18 +75,18 @@ public class TimelineActivity extends FragmentActivity implements OnTweetCompose
 		// Reduce the value so that only tweets older than the one loaded are received (otherwise we get dup for last tweet)
 		maxId--;
 		
-		if (maxId > 0)
-			Log.d("debug", "Load tweets older than: " + tweetsAdapter.getItem(tweetsAdapter.getCount() - 1).getBody() + ", id: " + maxId);
+//		if (maxId > 0)
+//			Log.d("debug", "Load tweets older than: " + tweetsAdapter.getItem(tweetsAdapter.getCount() - 1).getBody() + ", id: " + maxId);
 		
 		restClient.getTimeline(maxId, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONArray tweets) {
-				Log.d("debug", "*********** NEW RESULTS.");
-				for (int i = 0; i < tweets.length(); i++) {
-					try {
-						Log.d("debug", "tweet body: " + tweets.getJSONObject(i).getString("text"));
-					} catch (Exception e) {}
-				}
+//				Log.d("debug", "*********** NEW RESULTS.");
+//				for (int i = 0; i < tweets.length(); i++) {
+//					try {
+//						Log.d("debug", "tweet body: " + tweets.getJSONObject(i).getString("text"));
+//					} catch (Exception e) {}
+//				}
 				
 				tweetsAdapter.addAll(Tweet.fromJSONArray(tweets));
 			}
@@ -109,22 +110,28 @@ public class TimelineActivity extends FragmentActivity implements OnTweetCompose
 					if (tweetsList.isEmpty()) {
 						// this is so as to refresh the timestamps in case there
 						// are not tweets.
-//						Tweet tempTweet = new Tweet();
-//						tweetsAdapter.add(tempTweet);
-//						tweetsAdapter.remove(tempTweet);
+						Tweet tempTweet = new Tweet();
+						tweetsAdapter.add(tempTweet);
+						tweetsAdapter.remove(tempTweet);
 					} else {
 						for (int i = tweetsList.size() - 1; i >= 0; i--) {
 							tweetsAdapter.insert(tweetsList.get(i), 0);
 						}
 					}
 					
-					lvTweets.onRefreshComplete();
+//					lvTweets.onRefreshComplete();
 				}
 				
 				@Override
 				public void onFailure(Throwable e, String str) {
 					Log.d("error", e.getMessage());
+//					lvTweets.onRefreshComplete();
+				}
+				
+				@Override
+				public void onFinish() {
 					lvTweets.onRefreshComplete();
+					super.onFinish();
 				}
 			});
 
