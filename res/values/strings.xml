@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Twitter-ing</string>
+    <string name="app_name">twittering</string>
     <string name="action_settings">Settings</string>
     <string name="login_label">twittering</string>
     <string name="title_activity_timeline">Home Timeline</string>

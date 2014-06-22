@@ -45,7 +45,7 @@ public class LoginActivity extends OAuthLoginActivity<TwitterRestClient> {
     // Uses the client to initiate OAuth authorization
     // This should be tied to a button used to login
     public void loginToRest(View view) {
-        getClient().connect();
+        //getClient().connect();
     }
 
 }
