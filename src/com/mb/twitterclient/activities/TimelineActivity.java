@@ -57,6 +57,7 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.twitter_options_menu, menu);
+		menu.findItem(R.id.miCompose).setVisible(Util.isNetworkConnected(this));
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -116,11 +117,7 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 	
 	private void loadNewerTweets() {
 		
-		if (!Util.isNetworkConnected(this)) {
-			return;
-		}
-		
-		if (tweetsAdapter.isEmpty()) {
+		if (tweetsAdapter.isEmpty() || !Util.isNetworkConnected(this)) {
 			lvTweets.onRefreshComplete();
 		} else {
 			long sinceId = tweetsAdapter.getItem(0).getTweetId();

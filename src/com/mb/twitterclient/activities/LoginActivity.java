@@ -51,9 +51,8 @@ public class LoginActivity extends OAuthLoginActivity<TwitterRestClient> {
     	if (Util.isNetworkConnected(this)) {
             getClient().connect();
     	} else {
-    		Toast.makeText(this, "Offline mode", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, "Offline mode", Toast.LENGTH_LONG).show();
     		Intent i = new Intent(this, TimelineActivity.class);
-//    		i.putExtra("isNetworkConnected", false);
        	 	startActivity(i);
     	}
     }
