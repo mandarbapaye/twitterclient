@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/textView1"
             android:layout_centerHorizontal="true"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="sans-serif-bold"
             android:gravity="center"
             android:text="begin"
             android:textAppearance="?android:attr/textAppearanceSmall"

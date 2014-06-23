@@ -28,7 +28,8 @@
             android:layout_height="wrap_content"
             android:text="@string/full_name_label"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-bold"/>
 
         <TextView
             android:id="@+id/tvScreenName"
@@ -36,7 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:text="@string/foo_label"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:fontFamily="sans-serif"/>
         
         <TextView
             android:id="@+id/tvTimeAgo"
@@ -46,7 +48,8 @@
             android:gravity="right"
             android:text="@string/fourd_label"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@android:color/darker_gray"
+            android:fontFamily="sans-serif-light"/>
         
 	</LinearLayout>
 
