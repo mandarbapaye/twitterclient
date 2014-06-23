@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
 @Table(name="Tweets")
@@ -76,12 +77,11 @@ public class Tweet extends Model {
 	}
 	
 	public static List<Tweet> getTweets(long maxId) {
+		From selectQuery = new Select().from(Tweet.class);
 		if (maxId > 0) {
-			return new Select().from(Tweet.class).where("tweetId <= ?", maxId).execute();
-		} else {
-			return new Select().from(Tweet.class).execute();
+			selectQuery = selectQuery.where("tweetId <= ?", maxId);
 		}
-		
+		return selectQuery.orderBy("CreatedAt DESC").limit(20).execute();
 	}
 
 }

@@ -76,9 +76,22 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 				Scanner scanner = new Scanner(relativeDateFull);
 				scanner.useDelimiter(" ");
 				
-				StringBuilder relativeDateShort = new StringBuilder();				
-				relativeDateShort.append(scanner.next());
-				relativeDateShort.append(scanner.next().charAt(0));
+				StringBuilder relativeDateShort = new StringBuilder();
+				int count = 0;
+				while (scanner.hasNext() && count < 2) {
+					if (count == 0) {
+						String firstPart = scanner.next();
+						if (firstPart.equalsIgnoreCase("yesterday")) {
+							relativeDateShort.append("1d");
+						} else {
+							relativeDateShort.append(firstPart);
+						}
+					} else {
+						relativeDateShort.append(scanner.next().charAt(0));
+					}
+					count++;
+				}
+				
 				return relativeDateShort.toString();
 			}
 		} catch (ParseException e) {

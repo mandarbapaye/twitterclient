@@ -55,7 +55,7 @@ public class ComposeTweetFragment extends DialogFragment {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 		alertDialogBuilder.setView(v);
 		alertDialogBuilder.setTitle(R.string.compose_tweet_label);
-        alertDialogBuilder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton("Tweet",  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
               	   listener.onTweetComposed(etNewTweet.getText().toString());
