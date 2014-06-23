@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import com.codepath.oauth.OAuthLoginActivity;
 import com.mb.twitterclient.R;
 import com.mb.twitterclient.TwitterRestClient;
 import com.mb.twitterclient.R.layout;
 import com.mb.twitterclient.R.menu;
+import com.mb.twitterclient.util.Util;
 
 public class LoginActivity extends OAuthLoginActivity<TwitterRestClient> {
 
@@ -46,7 +48,14 @@ public class LoginActivity extends OAuthLoginActivity<TwitterRestClient> {
     // Uses the client to initiate OAuth authorization
     // This should be tied to a button used to login
     public void loginToRest(View view) {
-        getClient().connect();
+    	if (Util.isNetworkConnected(this)) {
+            getClient().connect();
+    	} else {
+    		Toast.makeText(this, "Offline mode", Toast.LENGTH_SHORT).show();
+    		Intent i = new Intent(this, TimelineActivity.class);
+//    		i.putExtra("isNetworkConnected", false);
+       	 	startActivity(i);
+    	}
     }
 
 }

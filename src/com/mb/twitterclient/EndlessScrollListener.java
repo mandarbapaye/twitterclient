@@ -57,7 +57,6 @@ public abstract class EndlessScrollListener implements OnScrollListener {
         // the visibleThreshold and need to reload more data.
         // If we do need to reload some more data, we execute onLoadMore to fetch the data.
         if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-        	Log.d("debug", "calling onLoadMore");
 			onLoadMore(currentPage + 1, totalItemCount);
 			loading = true;
         }

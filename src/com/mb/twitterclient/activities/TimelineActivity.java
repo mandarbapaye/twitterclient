@@ -1,6 +1,7 @@
 package com.mb.twitterclient.activities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -10,7 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.activeandroid.ActiveAndroid;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.mb.twitterclient.R;
 import com.mb.twitterclient.TwitterApplication;
@@ -19,6 +22,7 @@ import com.mb.twitterclient.adapters.TweetAdapter;
 import com.mb.twitterclient.fragments.ComposeTweetFragment;
 import com.mb.twitterclient.fragments.ComposeTweetFragment.OnTweetComposedListener;
 import com.mb.twitterclient.models.Tweet;
+import com.mb.twitterclient.util.Util;
 
 import eu.erikw.PullToRefreshListView;
 import eu.erikw.PullToRefreshListView.OnRefreshListener;
@@ -70,12 +74,20 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 	}
 
 	private void loadTweets() {
-		long maxId = tweetsAdapter.isEmpty() ? 0 : tweetsAdapter.getItem(tweetsAdapter.getCount() - 1).getId();
+		
+		long maxId = tweetsAdapter.isEmpty() ? 0 : tweetsAdapter.getItem(tweetsAdapter.getCount() - 1).getTweetId();
 		// Reduce the value so that only tweets older than the one loaded are received (otherwise we get dup for last tweet)
 		maxId--;
 		
 //		if (maxId > 0)
 //			Log.d("debug", "Load tweets older than: " + tweetsAdapter.getItem(tweetsAdapter.getCount() - 1).getBody() + ", id: " + maxId);
+		
+		if (!Util.isNetworkConnected(this)) {
+			Toast.makeText(this, "Loading from databse", Toast.LENGTH_SHORT).show();
+			List<Tweet> tweetsList = loadTweetsFromDatabase(maxId);
+			tweetsAdapter.addAll(tweetsList);
+			return;
+		}
 		
 		restClient.getTimeline(maxId, new JsonHttpResponseHandler() {
 			@Override
@@ -87,7 +99,9 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 //					} catch (Exception e) {}
 //				}
 				
-				tweetsAdapter.addAll(Tweet.fromJSONArray(tweets));
+				ArrayList<Tweet> tweetsList = Tweet.fromJSONArray(tweets);
+				tweetsAdapter.addAll(tweetsList);
+				saveToDatabase(tweetsList);
 			}
 			
 			@Override
@@ -101,7 +115,7 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 		if (tweetsAdapter.isEmpty()) {
 			lvTweets.onRefreshComplete();
 		} else {
-			long sinceId = tweetsAdapter.getItem(0).getId();
+			long sinceId = tweetsAdapter.getItem(0).getTweetId();
 			restClient.getNewerTweets(sinceId, new JsonHttpResponseHandler() {
 				@Override
 				public void onSuccess(JSONArray tweets) {
@@ -116,6 +130,7 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 						for (int i = tweetsList.size() - 1; i >= 0; i--) {
 							tweetsAdapter.insert(tweetsList.get(i), 0);
 						}
+						saveToDatabase(tweetsList);
 					}
 					
 //					lvTweets.onRefreshComplete();
@@ -164,6 +179,23 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 				Log.d("error", e.getMessage());
 			}
 		});
-
 	}
+	
+	private void saveToDatabase(ArrayList<Tweet> tweetsList) {
+		ActiveAndroid.beginTransaction();
+		for (Tweet tweet : tweetsList) {
+			Long userSave = tweet.getUser().save();
+			Long tweetSave = tweet.save();
+			Log.d("debug", "User: " + userSave + ", Tweet: " + tweetSave);
+		}
+		Toast.makeText(this, "New Tweets are stored to DB", Toast.LENGTH_SHORT).show();
+		ActiveAndroid.setTransactionSuccessful();
+		ActiveAndroid.endTransaction();
+	}
+	
+	private List<Tweet> loadTweetsFromDatabase(long maxId) {
+		return Tweet.getTweets(maxId);
+	}
+	
+	
 }

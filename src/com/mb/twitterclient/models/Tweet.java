@@ -1,24 +1,42 @@
 package com.mb.twitterclient.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Tweet {
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
+
+@Table(name="Tweets")
+public class Tweet extends Model {
 	
+	@Column(name="Body")
 	private String body;
-	private long id;
+	
+	@Column(name="TweetId", unique=true, onUniqueConflict=Column.ConflictAction.REPLACE)
+	private long tweetId;
+	
+	@Column(name="CreatedAt")
 	private String createdAt;
+	
+	@Column(name="User")
 	private User user;
+	
+	public Tweet() {
+		super();
+	}
 	
 	public String getBody() {
 		return body;
 	}
 	
-	public long getId() {
-		return id;
+	public long getTweetId() {
+		return tweetId;
 	}
 	
 	public String getCreatedAt() {
@@ -33,7 +51,7 @@ public class Tweet {
 		Tweet tweet = new Tweet();
 		try {
 			tweet.body = json.getString("text");
-			tweet.id = json.getLong("id");
+			tweet.tweetId = json.getLong("id");
 			tweet.createdAt = json.getString("created_at");
 			tweet.user = User.fromJSON(json.getJSONObject("user"));
 		} catch (JSONException e) {
@@ -55,6 +73,15 @@ public class Tweet {
 			e.printStackTrace();
 		}
 		return tweetsList;
+	}
+	
+	public static List<Tweet> getTweets(long maxId) {
+		if (maxId > 0) {
+			return new Select().from(Tweet.class).where("tweetId <= ?", maxId).execute();
+		} else {
+			return new Select().from(Tweet.class).execute();
+		}
+		
 	}
 
 }
