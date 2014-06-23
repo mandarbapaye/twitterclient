@@ -41,7 +41,7 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="start"
+            android:text="begin"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/white"
             android:textSize="12sp"

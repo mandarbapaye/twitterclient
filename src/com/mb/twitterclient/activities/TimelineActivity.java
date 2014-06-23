@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.mb.twitterclient.R;
@@ -24,7 +23,7 @@ import com.mb.twitterclient.models.Tweet;
 import eu.erikw.PullToRefreshListView;
 import eu.erikw.PullToRefreshListView.OnRefreshListener;
 
-public class TimelineActivity extends FragmentActivity implements OnTweetComposedListener {
+public class TimelineActivity extends Activity implements OnTweetComposedListener {
 	
 	TwitterRestClient restClient;
 	
