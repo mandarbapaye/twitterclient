@@ -7,10 +7,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
@@ -112,6 +115,11 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 	}
 	
 	private void loadNewerTweets() {
+		
+		if (!Util.isNetworkConnected(this)) {
+			return;
+		}
+		
 		if (tweetsAdapter.isEmpty()) {
 			lvTweets.onRefreshComplete();
 		} else {
@@ -182,19 +190,44 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 	}
 	
 	private void saveToDatabase(ArrayList<Tweet> tweetsList) {
-		ActiveAndroid.beginTransaction();
-		for (Tweet tweet : tweetsList) {
-			Long userSave = tweet.getUser().save();
-			Long tweetSave = tweet.save();
-			Log.d("debug", "User: " + userSave + ", Tweet: " + tweetSave);
-		}
-		Toast.makeText(this, "New Tweets are stored to DB", Toast.LENGTH_SHORT).show();
-		ActiveAndroid.setTransactionSuccessful();
-		ActiveAndroid.endTransaction();
+		new DBCommitTask().execute(tweetsList.toArray(new Tweet[0]));
 	}
 	
 	private List<Tweet> loadTweetsFromDatabase(long maxId) {
 		return Tweet.getTweets(maxId);
+	}
+	
+	
+	private class DBCommitTask extends AsyncTask<Tweet, Void, Boolean> {
+        @Override
+	    protected Boolean doInBackground(Tweet... tweets) {
+	    	boolean commitSuccessful = false;
+	    	try {
+	    		ActiveAndroid.beginTransaction();
+	    		for (Tweet tweet : tweets) {
+					tweet.getUser().save();
+					tweet.save();
+	    		}
+	    		ActiveAndroid.setTransactionSuccessful();
+	    		commitSuccessful = true;
+	    	} catch (Exception e) {
+	    		e.printStackTrace();
+	    	} finally {
+	    		ActiveAndroid.endTransaction();
+	    	}
+	 		
+	    	return commitSuccessful;
+	    }
+	     
+	    protected void onPostExecute(Boolean result) {
+	    	String text;
+	    	if (result) {
+	    		text = "Tweets added to databse from async task.";
+	    	} else {
+	    		text = "Could not add tweets to database";
+	    	}
+	    	Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+	    }
 	}
 	
 	
