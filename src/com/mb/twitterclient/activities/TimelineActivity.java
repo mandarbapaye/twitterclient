@@ -102,9 +102,10 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 //			Log.d("debug", "Load tweets older than: " + tweetsAdapter.getItem(tweetsAdapter.getCount() - 1).getBody() + ", id: " + maxId);
 		
 		if (!Util.isNetworkConnected(this)) {
-			Toast.makeText(this, "Loading from databse", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Loading from DB", Toast.LENGTH_SHORT).show();
 			List<Tweet> tweetsList = loadTweetsFromDatabase(maxId);
 			tweetsAdapter.addAll(tweetsList);
+			tweetsAdapter.notifyDataSetChanged();
 			return;
 		}
 		
@@ -120,6 +121,7 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 				
 				ArrayList<Tweet> tweetsList = Tweet.fromJSONArray(tweets);
 				tweetsAdapter.addAll(tweetsList);
+				tweetsAdapter.notifyDataSetChanged();
 				saveToDatabase(tweetsList);
 			}
 			
@@ -146,10 +148,12 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 						Tweet tempTweet = new Tweet();
 						tweetsAdapter.add(tempTweet);
 						tweetsAdapter.remove(tempTweet);
+						tweetsAdapter.notifyDataSetChanged();
 					} else {
 						for (int i = tweetsList.size() - 1; i >= 0; i--) {
 							tweetsAdapter.insert(tweetsList.get(i), 0);
 						}
+						tweetsAdapter.notifyDataSetChanged();
 						saveToDatabase(tweetsList);
 					}
 					
@@ -187,6 +191,7 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 				// the same time which is not reflected here.
 
 				tweetsAdapter.insert(Tweet.fromJSON(tweetJson), 0);
+				tweetsAdapter.notifyDataSetChanged();
 				lvTweets.smoothScrollToPosition(0);
 
 				// is this a better approach then.
@@ -232,13 +237,13 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 	    }
 	     
 	    protected void onPostExecute(Boolean result) {
-	    	String text;
-	    	if (result) {
-	    		text = "Tweets added to databse from async task.";
-	    	} else {
-	    		text = "Could not add tweets to database";
-	    	}
-	    	Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+//	    	String text;
+//	    	if (result) {
+//	    		text = "Tweets added to databse from async task.";
+//	    	} else {
+//	    		text = "Could not add tweets to database";
+//	    	}
+//	    	Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
 	    }
 	}
 	

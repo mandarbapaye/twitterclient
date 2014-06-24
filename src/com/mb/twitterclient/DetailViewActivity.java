@@ -25,7 +25,8 @@ public class DetailViewActivity extends Activity {
 	TextView tvDetailScreenName;
 	TextView tvDetailTweetText;
 	TextView tvDetailCreatedAt;
-	TextView tvDetailRetweets;
+	TextView tvDetailRetweetCount;
+	TextView tvDetailFavCount;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,8 @@ public class DetailViewActivity extends Activity {
 		tvDetailScreenName = (TextView) findViewById(R.id.tvDetailScreenName);
 		tvDetailTweetText = (TextView) findViewById(R.id.tvDetailTweetText);
 		tvDetailCreatedAt = (TextView) findViewById(R.id.tvDetailCreatedAt);
-		tvDetailRetweets = (TextView) findViewById(R.id.tvDetailRetweets);
+		tvDetailRetweetCount = (TextView) findViewById(R.id.tvDetailRetweetCount);
+		tvDetailFavCount = (TextView) findViewById(R.id.tvDetailFavCount);
 		
 		Tweet tweet = (Tweet) getIntent().getExtras().get(Constants.TWEET_PARAM);
 		if (tweet != null) {
@@ -66,12 +68,8 @@ public class DetailViewActivity extends Activity {
 		tvDetailScreenName.setText("@" + tweet.getUser().getScreenName());
 		tvDetailTweetText.setText(tweet.getBody());
 		tvDetailCreatedAt.setText(getFormattedTS(tweet.getCreatedAt()));
-		StringBuilder builder = new StringBuilder();
-		builder.append(tweet.getRetweetCount());
-		builder.append(" RETWEETS, ");
-		builder.append(tweet.getFavCount());
-		builder.append(" FAVOURITES");
-		tvDetailRetweets.setText(builder.toString());
+		tvDetailRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
+		tvDetailFavCount.setText(String.valueOf(tweet.getFavCount()));
 	}
 	
 	public String getFormattedTS(String rawJsonDate) {

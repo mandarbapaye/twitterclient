@@ -16,5 +16,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="detail_tweet_label">Detail Tweet body</string>
     <string name="detail_createdat_label">10:10 PM Jun 12</string>
-    <string name="detail_retweet">200 RETWEETS 404 FAVOIRITES</string>
+    <string name="detail_retweet_count_label">200</string>
+    <string name="detail_retweet_label">RETWEETS</string>
+    <string name="detail_fav_count_label">404</string>
+    <string name="detail_fav_label">FAVORITES</string>
 </resources>

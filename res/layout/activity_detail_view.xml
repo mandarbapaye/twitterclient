@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="${packageName}.${activityClass}"
-    android:padding="10dp">
-    
+    android:padding="10dp"
+    tools:context="${packageName}.${activityClass}" >
+
     <RelativeLayout
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	tools:context="${packageName}.${activityClass}"
-    	android:layout_margin="7dp">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        tools:context="${packageName}.${activityClass}" >
 
         <ImageView
             android:id="@+id/ivDetailImage"
@@ -25,60 +25,107 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/ivDetailImage"
-            android:text="@string/full_name_label"
             android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/ivDetailImage"
+            android:fontFamily="sans-serif-bold"
+            android:text="@string/full_name_label"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvDetailScreenName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvDetailName"
-            android:layout_toRightOf="@+id/ivDetailImage"
             android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/ivDetailImage"
+            android:fontFamily="sans-serif"
             android:text="@string/foo_label"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/darker_gray"
-            android:fontFamily="sans-serif"/>
-        
+            android:textColor="@android:color/darker_gray" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvDetailTweetText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="7dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/detail_tweet_label"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/tvDetailCreatedAt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/detail_createdat_label"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/darker_gray" />
     
+    <View
+    	android:layout_width="fill_parent"
+    	android:layout_height="1dp"
+    	android:background="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp" >
+
         <TextView
-            android:id="@+id/tvDetailTweetText"
-            android:layout_width="fill_parent"
+            android:id="@+id/tvDetailRetweetCount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
-            android:text="@string/detail_tweet_label"
+            android:layout_marginRight="2dp"
+            android:fontFamily="sans-serif-bold"
+            android:text="@string/detail_retweet_count_label"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:fontFamily="sans-serif"/>
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDetailRetweetLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="5dp"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/detail_retweet_label"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/tvDetailFavCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2dp"
+            android:fontFamily="sans-serif-bold"
+            android:text="@string/detail_fav_count_label"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDetailFavLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/detail_fav_label"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/darker_gray" />
+    </LinearLayout>
     
-        <TextView
-            android:id="@+id/tvDetailCreatedAt"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="7dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
-            android:text="@string/detail_createdat_label"
-            android:textAppearance="?android:attr/textAppearanceSmall" 
-            android:textColor="@android:color/darker_gray"
-            android:fontFamily="sans-serif-light"/>
-        
-        <TextView
-            android:id="@+id/tvDetailRetweets"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="7dp"
-            android:text="@string/detail_retweet"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/darker_gray"
-            android:fontFamily="sans-serif"/>
-        
+    <View
+    	android:layout_width="fill_parent"
+    	android:layout_height="1dp"
+    	android:background="@android:color/darker_gray"/>
+
 </LinearLayout>
