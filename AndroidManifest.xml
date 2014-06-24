@@ -50,7 +50,12 @@
         </activity>
         <activity
             android:name="com.mb.twitterclient.DetailViewActivity"
-            android:label="@string/title_activity_detail_view" >
+            android:label="@string/title_activity_detail_view" 
+            android:parentActivityName="com.mb.twitterclient.activities.TimelineActivity" >
+        	<!-- Parent activity meta-data to support 4.0 and lower -->
+        	<meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="com.mb.twitterclient.activities.TimelineActivity" />
         </activity>
     </application>
 
