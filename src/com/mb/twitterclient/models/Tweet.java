@@ -1,5 +1,6 @@
 package com.mb.twitterclient.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
 @Table(name="Tweets")
-public class Tweet extends Model {
+public class Tweet extends Model implements Serializable {
 	
 	@Column(name="Body")
 	private String body;
@@ -27,6 +28,12 @@ public class Tweet extends Model {
 	
 	@Column(name="User")
 	private User user;
+	
+	@Column(name="RetweetCount")
+	private long retweetCount;
+	
+	@Column(name="FavCount")
+	private long favCount;
 	
 	public Tweet() {
 		super();
@@ -48,12 +55,22 @@ public class Tweet extends Model {
 		return user;
 	}
 	
+	public long getRetweetCount() {
+		return retweetCount;
+	}
+
+	public long getFavCount() {
+		return favCount;
+	}
+	
 	public static Tweet fromJSON(JSONObject json) {
 		Tweet tweet = new Tweet();
 		try {
 			tweet.body = json.getString("text");
 			tweet.tweetId = json.getLong("id");
 			tweet.createdAt = json.getString("created_at");
+			tweet.retweetCount = json.getLong("retweet_count");
+			tweet.favCount = json.getLong("favorite_count");
 			tweet.user = User.fromJSON(json.getJSONObject("user"));
 		} catch (JSONException e) {
 			e.printStackTrace();

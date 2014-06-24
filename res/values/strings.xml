@@ -12,5 +12,9 @@
     <string name="compose_label">Compose Tweet</string>
     <string name="char_count_label">140</string>
     <string name="compose_tweet_label">Compose Tweet</string>
-
+    <string name="title_activity_detail_view">Tweet</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="detail_tweet_label">Detail Tweet body</string>
+    <string name="detail_createdat_label">10:10 PM Jun 12</string>
+    <string name="detail_retweet">200 RETWEETS 404 FAVOIRITES</string>
 </resources>

@@ -7,17 +7,20 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.mb.twitterclient.DetailViewActivity;
 import com.mb.twitterclient.R;
 import com.mb.twitterclient.TwitterApplication;
 import com.mb.twitterclient.TwitterRestClient;
@@ -25,6 +28,7 @@ import com.mb.twitterclient.adapters.TweetAdapter;
 import com.mb.twitterclient.fragments.ComposeTweetFragment;
 import com.mb.twitterclient.fragments.ComposeTweetFragment.OnTweetComposedListener;
 import com.mb.twitterclient.models.Tweet;
+import com.mb.twitterclient.util.Constants;
 import com.mb.twitterclient.util.Util;
 
 import eu.erikw.PullToRefreshListView;
@@ -75,6 +79,17 @@ public class TimelineActivity extends Activity implements OnTweetComposedListene
 				loadNewerTweets();
 			}
 		});
+		
+		lvTweets.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Tweet tweet = tweetsAdapter.getItem(position);
+				Intent detailIntent = new Intent(getApplicationContext(), DetailViewActivity.class);
+				detailIntent.putExtra(Constants.TWEET_PARAM, tweet);
+				startActivity(detailIntent);
+			}
+		});
+		
 	}
 
 	private void loadTweets() {

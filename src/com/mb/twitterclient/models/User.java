@@ -1,5 +1,7 @@
 package com.mb.twitterclient.models;
 
+import java.io.Serializable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,7 +10,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 @Table(name="Users")
-public class User extends Model {
+public class User extends Model implements Serializable {
 	
 	@Column(name="Name")
 	private String name;
